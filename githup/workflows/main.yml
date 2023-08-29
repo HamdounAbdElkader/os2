@@ -1,0 +1,22 @@
+on:
+  push:
+    branches:
+      - master
+
+
+
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: "login docker"
+        run: docker login --username ${{ secrets.DOCKER_NAME }} --password ${{ secrets.DOCKER_PASS }}
+      - name: "docker build"
+        run: docker build -t ${{ secrets.DOCKER_NAME }}/img .
+      - name: "publish to dockerhub"
+        run: docker push  ${{ secrets.DOCKER_NAME }}/img
